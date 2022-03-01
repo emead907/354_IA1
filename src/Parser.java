@@ -9,18 +9,37 @@ public class Parser {
 
     private Scanner scanner;
 
+	/**
+	 * Checks to see if a new token in a duplicate or not
+	 * @param s the string that will be made into a new token
+	 * @throws SyntaxException
+	 */
     private void match(String s) throws SyntaxException {
 	scanner.match(new Token(s));
     }
 
+	/**
+	 * Checks to see if the current token being parsed in null or not
+	 * @return the token if not null else thorws exception
+	 * @throws SyntaxException
+	 */
     private Token curr() throws SyntaxException {
 	return scanner.curr();
     }
 
+	/**
+	 * @return the current position of the parsing
+	 */
     private int pos() {
 	return scanner.pos();
     }
 
+	/**
+	 * Determins and makes a new node based on what operation will be
+	 * preformed
+	 * @return the new node
+	 * @throws SyntaxException
+	 */
     private NodeMulop parseMulop() throws SyntaxException {
 	if (curr().equals(new Token("*"))) {
 	    match("*");
@@ -32,7 +51,12 @@ public class Parser {
 	}
 	return null;
     }
-
+	/**
+	 * Determins and makes a new node based on what operation will be
+	 * preformed
+	 * @return the new node
+	 * @throws SyntaxException
+	 */
     private NodeAddop parseAddop() throws SyntaxException {
 	if (curr().equals(new Token("+"))) {
 	    match("+");
@@ -45,6 +69,11 @@ public class Parser {
 	return null;
     }
 
+	/**
+	 * Determins if a node is a duplicate or not
+	 * @return the new node
+	 * @throws SyntaxException
+	 */
     private NodeFact parseFact() throws SyntaxException {
 	if (curr().equals(new Token("("))) {
 	    match("(");
@@ -62,6 +91,11 @@ public class Parser {
 	return new NodeFactNum(num.lex());
     }
 
+	/**
+	 * Creates a new node for the term
+	 * @return a new node
+	 * @throws SyntaxException
+	 */
     private NodeTerm parseTerm() throws SyntaxException {
 	NodeFact fact=parseFact();
 	NodeMulop mulop=parseMulop();
@@ -72,6 +106,11 @@ public class Parser {
 	return term;
     }
 
+	/**
+	 *
+	 * @return the new node
+	 * @throws SyntaxException
+	 */
     private NodeExpr parseExpr() throws SyntaxException {
 	NodeTerm term=parseTerm();
 	NodeAddop addop=parseAddop();
@@ -82,6 +121,11 @@ public class Parser {
 	return expr;
     }
 
+	/**
+	 * parses until it finds a = sign
+	 * @return the assn node that contains a lexeme and a expresion
+	 * @throws SyntaxException
+	 */
     private NodeAssn parseAssn() throws SyntaxException {
 	Token id=curr();
 	match("id");
@@ -91,6 +135,11 @@ public class Parser {
 	return assn;
     }
 
+	/**
+	 * Parses a statment until it gets to a ;
+	 * @return the statement from beginning to ;
+	 * @throws SyntaxException
+	 */
     private NodeStmt parseStmt() throws SyntaxException {
 	NodeAssn assn=parseAssn();
 	match(";");
@@ -98,6 +147,13 @@ public class Parser {
 	return stmt;
     }
 
+	/**
+	 * parse a program from beginning to end of file creating a
+	 * statement
+	 * @param program
+	 * @return the statement that is made
+	 * @throws SyntaxException
+	 */
     public Node parse(String program) throws SyntaxException {
 	scanner=new Scanner(program);
 	scanner.next();

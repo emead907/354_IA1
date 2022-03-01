@@ -31,10 +31,11 @@ public class Environment {
     }
 
     /**
+     * Gets the value for the given variable from the hashmap.
      *
-     * @param pos
-     * @param var
-     * @return
+     * @param pos The position of the ...
+     * @param var the variable that is being used a key in the hashamp.
+     * @return the value that is assisoated with the var key in the hashMap
      * @throws EvalException
      */
     public double get(int pos, String var) throws EvalException {

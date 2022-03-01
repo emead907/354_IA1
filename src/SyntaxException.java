@@ -10,6 +10,10 @@ public class SyntaxException extends Exception {
 	this.found=found;
     }
 
+    /**
+     * toString method for the StntaxException
+     * @return a string that
+     */
     public String toString() {
 	return "syntax error"
 	    +", pos="+pos
