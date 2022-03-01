@@ -36,11 +36,13 @@ public class Environment {
      * @param pos The position of the ...
      * @param var the variable that is being used a key in the hashamp.
      * @return the value that is assisoated with the var key in the hashMap
-     * @throws EvalException
+     * @throws EvalException when var has not been saved in the HashMap
      */
     public double get(int pos, String var) throws EvalException {
-        double val = hashMap.get(var);
-        return val;
+        if(hashMap.get(var) == null){
+            throw new EvalException(pos, var + " has no value");
+        }
+        return hashMap.get(var);
     }
 
 }

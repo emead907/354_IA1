@@ -16,6 +16,7 @@ public class Scanner {
     private Set<String> legits=new HashSet<String>();
     private Set<String> keywords=new HashSet<String>();
     private Set<String> operators=new HashSet<String>();
+	private Set<String> comments = new HashSet<String>();
 
     // initializers for previous sets
 
@@ -90,7 +91,16 @@ public class Scanner {
 	 * @param s
 	 */
     private void initKeywords(Set<String> s) {
+
     }
+
+	/**
+	 * Inizilize the comments
+	 * @param s the set of strings
+	 */
+	private void initComment(Set<String> s){
+		s.add("@");
+	}
 
     // constructor:
     //   - squirrel-away source program
@@ -105,6 +115,7 @@ public class Scanner {
 	initLegits(legits);
 	initKeywords(keywords);
 	initOperators(operators);
+	initComment(comments);
     }
 
     // handy string-processing methods
@@ -207,6 +218,11 @@ public class Scanner {
 	    nextKwId();
 	else if (operators.contains(c))
 	    nextOp();
+	else if (comments.contains(c)){
+		pos++;
+		past('@');
+		next();
+	}
 	else {
 	    System.err.println("illegal character at position "+pos);
 	    pos++;
