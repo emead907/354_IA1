@@ -70,7 +70,7 @@ public class Parser {
     }
 
 	/**
-	 * Determins if a node is a duplicate or not
+	 * Determins what type of token the Fact is then
 	 * @return the new node
 	 * @throws SyntaxException
 	 */
@@ -85,6 +85,11 @@ public class Parser {
 	    Token id=curr();
 	    match("id");
 	    return new NodeFactId(pos(),id.lex());
+	}
+	if (curr().equals(new Token("-"))){
+		match("-");
+		NodeFact minus = parseFact();
+		return new UnaryMinus(minus);
 	}
 	Token num=curr();
 	match("num");
