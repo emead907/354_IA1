@@ -49,7 +49,9 @@ public class Scanner {
 	 * @param s is the Set of strings that the chars will be added to
 	 */
     private void initDigits(Set<String> s) {
-	fill(s,'0','9');
+
+		fill(s,'0','9');
+		fill(s, '.', '.');
     }
 
 	/**
