@@ -16,12 +16,12 @@ public class NodeIf extends Node{
                return 0;
            }
            else{
-               elseNode.eval(environment);
+               return elseNode.eval(environment);
            }
        }
        else{
            return thenNode.eval(environment);
        }
-       return 0;
+
     }
 }
