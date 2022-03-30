@@ -1,1 +1,1 @@
-if x<=y then rd x else rd y;
+if x<=y then rd x else rd y
