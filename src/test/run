@@ -2,7 +2,7 @@
 
 # This program is a simple regression tester.  For each test
 # directory, the interpreter is executed on programs in files whose
-# names match "prg*".  Input is from "inp", which is redirected to
+# names match "prg1*".  Input is from "inp", which is redirected to
 # stdin.  Output goes to "out", to which stdout is redirected.  After
 # each execution, "out" is compared to "exp", the expected output.
 

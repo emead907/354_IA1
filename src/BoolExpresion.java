@@ -3,7 +3,7 @@ public class BoolExpresion {
     private NodeExpr exprOne;
     private NodeExpr exprTwo;
 
-    public BoolExpresion(NodeRelop relop, NodeExpr exprOne, NodeExpr exprTwo) throws EvalException {
+    public BoolExpresion(NodeRelop relop, NodeExpr exprOne, NodeExpr exprTwo){
         this.exprOne = exprOne;
         this.exprTwo = exprTwo;
         this.relop = relop;

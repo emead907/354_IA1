@@ -49,10 +49,10 @@ public class Parser {
 	    match("/");
 	    return new NodeMulop(pos(),"/");
 	}
-	if(curr().equals(new Token("<"))) {
-		match("<");
-		parseRelop();
-	}
+//	if(curr().equals(new Token("<"))) {
+//		match("<");
+//		parseRelop();
+//	}
 	return null;
     }
 	/**
@@ -79,16 +79,16 @@ public class Parser {
 			return new NodeRelop(pos(),"<");
 		}
 		if (curr().equals(new Token(">"))) {
-			match("-");
+			match(">");
 			return new NodeRelop(pos(),">");
 		}
 		return null;
 	}
 
-	private BoolExpresion parseBoolExpr() throws EvalException, SyntaxException {
+	private BoolExpresion parseBoolExpr() throws SyntaxException {
 		NodeExpr exprOne = parseExpr();
-		NodeExpr exprTwo = parseExpr();
 		NodeRelop relop = parseRelop();
+		NodeExpr exprTwo = parseExpr();
 		BoolExpresion boolExpr = new BoolExpresion(relop, exprOne, exprTwo);
 		return boolExpr;
 	}
@@ -184,8 +184,29 @@ public class Parser {
 			NodeRDStmt stmt = new NodeRDStmt(rd);
 			return stmt;
 		}
+		if(curr().equals(new Token("if"))) {
+			NodeIf ifN = parseIf();
+			//match(";");
+			NodeifStmt stmt = new NodeifStmt(ifN);
+			return stmt;
+		}
 		return null;
     }
+
+	private NodeIf parseIf() throws SyntaxException{
+		match("if");
+		BoolExpresion boolExpresion = parseBoolExpr();
+		match("then");
+		NodeStmt then = parseStmt();
+		Token elseCheck = curr();
+		NodeStmt elseNode = null;
+		if(elseCheck.equals(new Token("else"))){
+			match("else");
+			elseNode = parseStmt();
+		}
+		NodeIf ifNode = new NodeIf(boolExpresion, then, elseNode);
+		return ifNode;
+	}
 
 	private NodeRd parseRd() throws SyntaxException {
 		match("rd");
