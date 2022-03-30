@@ -183,6 +183,13 @@ public class Parser {
 		if(curr().equals(new Token("id"))) {
 			NodeAssn assn = parseAssn();
 			NodeStmtAssn stmt = new NodeStmtAssn(assn);
+			if(curr().equals(new Token(";"))){
+				match(";");
+				NodeStmt newNodeStmt = parseStmt();
+				NodeBlock nodeBlock = new NodeBlock(stmt, newNodeStmt);
+				NodeBlockStmt nodeBlockStmt = new NodeBlockStmt(nodeBlock);
+				return nodeBlockStmt;
+			}
 			return stmt;
 		}
 		if(curr().equals(new Token("wr"))) {
@@ -246,7 +253,7 @@ public class Parser {
 	scanner=new Scanner(program);
 	scanner.next();
 	NodeStmt stmt=parseStmt();
-	match(";");
+	match("EOF");
 	return stmt;
     }
 
