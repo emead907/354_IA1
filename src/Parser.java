@@ -82,6 +82,14 @@ public class Parser {
 			match(">");
 			return new NodeRelop(pos(),">");
 		}
+		if (curr().equals(new Token("<="))) {
+			match("<=");
+			return new NodeRelop(pos(),"<=");
+		}
+		if (curr().equals(new Token(">="))) {
+			match(">=");
+			return new NodeRelop(pos(),">=");
+		}
 		return null;
 	}
 
@@ -174,19 +182,16 @@ public class Parser {
     private NodeStmt parseStmt() throws SyntaxException {
 		if(curr().equals(new Token("id"))) {
 			NodeAssn assn = parseAssn();
-			match(";");
 			NodeStmtAssn stmt = new NodeStmtAssn(assn);
 			return stmt;
 		}
 		if(curr().equals(new Token("rd"))) {
 			NodeRd rd = parseRd();
-			match(";");
 			NodeRDStmt stmt = new NodeRDStmt(rd);
 			return stmt;
 		}
 		if(curr().equals(new Token("if"))) {
 			NodeIf ifN = parseIf();
-			//match(";");
 			NodeifStmt stmt = new NodeifStmt(ifN);
 			return stmt;
 		}
@@ -228,7 +233,7 @@ public class Parser {
 	scanner=new Scanner(program);
 	scanner.next();
 	NodeStmt stmt=parseStmt();
-	match("EOF");
+	match(";");
 	return stmt;
     }
 
