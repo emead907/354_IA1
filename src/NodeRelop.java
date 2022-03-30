@@ -23,7 +23,7 @@ public class NodeRelop extends Node{
             }
         }
         if (relop.equals(">"))
-            if(o1 > 02){
+            if(o1 > o2){
                 return 1.0;
             }
             else{
@@ -37,9 +37,17 @@ public class NodeRelop extends Node{
             }
         }
         if (relop.equals("<>"))
-            return o1*o2;
+            if (o1 != o2) {
+                return 1.0;
+            } else {
+                return 0.0;
+            }
         if (relop.equals("=="))
-            return o1/o2;
+            if (o1 == o2) {
+                return 1.0;
+            } else {
+                return 0.0;
+            }
         throw new EvalException(pos,"bogus mulop: "+relop);
     }
 

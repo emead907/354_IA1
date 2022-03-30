@@ -90,6 +90,14 @@ public class Parser {
 			match(">=");
 			return new NodeRelop(pos(),">=");
 		}
+		if (curr().equals(new Token("=="))) {
+			match("==");
+			return new NodeRelop(pos(),"==");
+		}
+		if (curr().equals(new Token("<>"))) {
+			match("<>");
+			return new NodeRelop(pos(),"<>");
+		}
 		return null;
 	}
 
@@ -195,20 +203,56 @@ public class Parser {
 		if(curr().equals(new Token("wr"))) {
 			NodeWr wr = parseWr();
 			NodeWRStmt stmt = new NodeWRStmt(wr);
+			if(curr().equals(new Token(";"))){
+				match(";");
+				NodeStmt newNodeStmt = parseStmt();
+				NodeBlock nodeBlock = new NodeBlock(stmt, newNodeStmt);
+				NodeBlockStmt nodeBlockStmt = new NodeBlockStmt(nodeBlock);
+				return nodeBlockStmt;
+			}
 			return stmt;
 		}
 		if(curr().equals(new Token("rd"))) {
 			NodeRd rd = parseRd();
 			NodeRDStmt stmt = new NodeRDStmt(rd);
+			if(curr().equals(new Token(";"))){
+				match(";");
+				NodeStmt newNodeStmt = parseStmt();
+				NodeBlock nodeBlock = new NodeBlock(stmt, newNodeStmt);
+				NodeBlockStmt nodeBlockStmt = new NodeBlockStmt(nodeBlock);
+				return nodeBlockStmt;
+			}
 			return stmt;
 		}
 		if(curr().equals(new Token("if"))) {
 			NodeIf ifN = parseIf();
 			NodeifStmt stmt = new NodeifStmt(ifN);
+			if(curr().equals(new Token(";"))){
+				match(";");
+				NodeStmt newNodeStmt = parseStmt();
+				NodeBlock nodeBlock = new NodeBlock(stmt, newNodeStmt);
+				NodeBlockStmt nodeBlockStmt = new NodeBlockStmt(nodeBlock);
+				return nodeBlockStmt;
+			}
+			return stmt;
+		}
+		if(curr().equals(new Token("while"))) {
+			NodeWhile whileN = parseWhile();
+			NodewhileStmt stmt = new NodewhileStmt(whileN);
 			return stmt;
 		}
 		return null;
     }
+
+
+	private NodeWhile parseWhile() throws SyntaxException {
+		match("while");
+		BoolExpresion boolExpresion = parseBoolExpr();
+		match("do");
+		NodeStmt doStmt = parseStmt();
+		NodeWhile nodeWhile = new NodeWhile(boolExpresion, doStmt);
+		return nodeWhile;
+	}
 
 	private NodeWr parseWr() throws SyntaxException {
 		match("wr");

@@ -10,8 +10,11 @@ public class NodeBlock extends Node{
 
     public double eval(Environment environment) throws EvalException {
         double stmtOne = nodeStmtOne.eval(environment);
-        double stmttwo = nodeStmtTwo.eval(environment);
-        return stmttwo;
+        if(nodeStmtTwo != null){
+            double stmttwo = nodeStmtTwo.eval(environment);
+            return stmttwo;
+        }
+        return 0;
     }
 
 }
