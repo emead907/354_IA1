@@ -49,6 +49,10 @@ public class Parser {
 	    match("/");
 	    return new NodeMulop(pos(),"/");
 	}
+	if(curr().equals(new Token("<"))) {
+		match("<");
+		parseRelop();
+	}
 	return null;
     }
 	/**
@@ -68,6 +72,27 @@ public class Parser {
 	}
 	return null;
     }
+	//TODO: do this
+	private NodeRelop parseRelop() throws SyntaxException {
+		if (curr().equals(new Token("<"))) {
+			match("<");
+			return new NodeRelop(pos(),"<");
+		}
+		if (curr().equals(new Token(">"))) {
+			match("-");
+			return new NodeRelop(pos(),">");
+		}
+		return null;
+	}
+
+	private BoolExpresion parseBoolExpr() throws EvalException, SyntaxException {
+		NodeExpr exprOne = parseExpr();
+		NodeExpr exprTwo = parseExpr();
+		NodeRelop relop = parseRelop();
+		BoolExpresion boolExpr = new BoolExpresion(relop, exprOne, exprTwo);
+		return boolExpr;
+	}
+
 
 	/**
 	 * Determins what type of token the Fact is then
@@ -126,6 +151,7 @@ public class Parser {
 	return expr;
     }
 
+
 	/**
 	 * parses until it finds a = sign
 	 * @return the assn node that contains a lexeme and a expresion
@@ -146,11 +172,29 @@ public class Parser {
 	 * @throws SyntaxException
 	 */
     private NodeStmt parseStmt() throws SyntaxException {
-	NodeAssn assn=parseAssn();
-	match(";");
-	NodeStmt stmt=new NodeStmt(assn);
-	return stmt;
+		if(curr().equals(new Token("id"))) {
+			NodeAssn assn = parseAssn();
+			match(";");
+			NodeStmtAssn stmt = new NodeStmtAssn(assn);
+			return stmt;
+		}
+		if(curr().equals(new Token("rd"))) {
+			NodeRd rd = parseRd();
+			match(";");
+			NodeRDStmt stmt = new NodeRDStmt(rd);
+			return stmt;
+		}
+		return null;
     }
+
+	private NodeRd parseRd() throws SyntaxException {
+		match("rd");
+		Token currentToken = curr();
+		match("id");
+		NodeRd nodeRd = new NodeRd(currentToken.lex());
+		return nodeRd;
+	}
+
 
 	/**
 	 * parse a program from beginning to end of file creating a

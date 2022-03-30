@@ -86,14 +86,24 @@ public class Scanner {
 	s.add("(");
 	s.add(")");
 	s.add(";");
+	s.add(">");
+	s.add("<");
     }
 
 	/**
-	 * ummmm this is empty??
+	 * Inizilize the keywords
 	 * @param s
 	 */
     private void initKeywords(Set<String> s) {
-
+		s.add("if");
+		s.add("then");
+		s.add("else");
+		s.add("while");
+		s.add("do");
+		s.add("begin");
+		s.add("end");
+		s.add("rd");
+		s.add("wr");
     }
 
 	/**
@@ -224,6 +234,9 @@ public class Scanner {
 		pos++;
 		past('@');
 		next();
+	}
+	else if (keywords.contains(c)){
+
 	}
 	else {
 	    System.err.println("illegal character at position "+pos);
